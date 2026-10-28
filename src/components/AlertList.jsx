@@ -1,7 +1,7 @@
 import Card from './Card.jsx'
 import Icon from './Icon.jsx'
 
-const alertIcons = {
+export const alertIcons = {
   deviation: { name: 'alertCircle', color: 'var(--deviation)', label: 'Avvik' },
   priority: { name: 'arrowUp', color: 'var(--ripe)', label: 'Prioritet' },
   info: { name: 'bolt', color: 'var(--muted)', label: 'Info' },

@@ -1,23 +1,29 @@
+import { NavLink } from 'react-router'
+import Clock from './Clock.jsx'
 import Icon from './Icon.jsx'
 
-const navItems = ['Oversikt', 'Rader', 'Robotar', 'Varsler', 'Prognose']
+const navItems = [
+  { to: '/', label: 'Oversikt' },
+  { to: '/rader', label: 'Rader' },
+  { to: '/robotar', label: 'Robotar' },
+  { to: '/varsler', label: 'Varsler' },
+  { to: '/prognose', label: 'Prognose' },
+]
 
-export default function Topbar({ time, date, site, alertCount, active = 'Oversikt' }) {
+export default function Topbar({ site, alertCount }) {
   return (
     <header className="topbar">
-      <div className="topbar-clock">
-        <span className="topbar-time">{time}</span>
-        <span className="topbar-date">{date}</span>
-      </div>
+      <Clock />
 
+      {/* NavLink setter aria-current="page" på aktiv side */}
       <nav className="main-nav" aria-label="Hovedmeny">
         {navItems.map((item) => (
-          <a key={item} href="#" aria-current={item === active ? 'page' : undefined}>
-            {item}
-            {item === 'Varsler' && alertCount > 0 && (
-              <span className="nav-badge" aria-label={`${alertCount} nye`}>{alertCount}</span>
+          <NavLink key={item.to} to={item.to} end={item.to === '/'}>
+            {item.label}
+            {item.to === '/varsler' && alertCount > 0 && (
+              <span className="nav-badge" aria-label={`${alertCount} uleste`}>{alertCount}</span>
             )}
-          </a>
+          </NavLink>
         ))}
       </nav>
 

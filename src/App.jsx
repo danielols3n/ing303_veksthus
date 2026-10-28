@@ -1,49 +1,23 @@
-import AlertList from './components/AlertList.jsx'
-import Forecast from './components/Forecast.jsx'
-import HarvestToday from './components/HarvestToday.jsx'
-import HourlyHarvest from './components/HourlyHarvest.jsx'
-import RipenessMap from './components/RipenessMap.jsx'
-import RobotList from './components/RobotList.jsx'
-import Topbar from './components/Topbar.jsx'
-import {
-  alertCount,
-  alerts,
-  buildRipenessRows,
-  forecast,
-  greenhouse,
-  harvestToday,
-  hourly,
-  now,
-  PLANTS_PER_ROW,
-  robots,
-} from './data/demo.js'
-
-const rows = buildRipenessRows()
+import { Route, Routes } from 'react-router'
+import Layout from './components/Layout.jsx'
+import Alerts from './routes/alerts.jsx'
+import Forecast from './routes/forecast.jsx'
+import NotFound from './routes/not-found.jsx'
+import Overview from './routes/overview.jsx'
+import Robots from './routes/robots.jsx'
+import Rows from './routes/rows.jsx'
 
 export default function App() {
   return (
-    <div className="dashboard">
-      <Topbar time={now.time} date={now.date} site={greenhouse} alertCount={alertCount} />
-
-      <div className="dashboard-columns">
-        {/* Venstre: kart + dagskurve */}
-        <div className="column column-main">
-          <RipenessMap rows={rows} plantsPerRow={PLANTS_PER_ROW} />
-          <HourlyHarvest hours={hourly} />
-        </div>
-
-        {/* Høyre: nøkkeltall, robotar, varsler, prognose */}
-        <div className="column column-side">
-          <HarvestToday {...harvestToday} />
-          <RobotList robots={robots} />
-          <AlertList alerts={alerts} />
-          <Forecast days={forecast} />
-        </div>
-      </div>
-
-      <footer className="dashboard-footer">
-        Konseptskisse · ING303 · tallene er illustrative, ikke målte verdier
-      </footer>
-    </div>
+    <Routes>
+      <Route element={<Layout />}>
+        <Route index element={<Overview />} />
+        <Route path="rader" element={<Rows />} />
+        <Route path="robotar" element={<Robots />} />
+        <Route path="varsler" element={<Alerts />} />
+        <Route path="prognose" element={<Forecast />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
   )
 }
